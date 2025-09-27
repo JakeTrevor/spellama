@@ -18,17 +18,18 @@ class Chunk():
         return " ".join([(s if i != self.scrutinee else f"<<{s}>>") for i,s in enumerate(self.contents)])
 
     def correct(self) -> Self:
-        newContents =[" ".join([w if w != 'and' else 'OR' for w in s.split()])  for s in self.contents]
+        newContents = [" ".join([w if w != 'and' else 'OR' for w in s.split()])  for s in self.contents]
 
         return Chunk(newContents, self.scrutinee)
         
 
 def makeChunk(lst:List[str], idx: int, numBlocksBefore, numBlocksAfter) -> Chunk:
     lower = max(0, idx - numBlocksBefore)
+    actualBlocksBefore = idx - lower
     upper = idx + numBlocksAfter + 1
-    return Chunk(lst[lower:upper], numBlocksBefore)
+    return Chunk(lst[lower:upper], actualBlocksBefore)
     
-def makeChunks(sentences: List[str], *, numBlocksBefore=1, numBlocksAfter=1) -> List[Chunk]:
+def makeChunks(sentences: List[str], numBlocksBefore=1, numBlocksAfter=1) -> List[Chunk]:
     return [
         makeChunk(sentences, i, numBlocksBefore, numBlocksAfter)
         for i in range(len(sentences))
