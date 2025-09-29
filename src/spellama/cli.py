@@ -1,7 +1,10 @@
+from typing import List
+from spellama.chunk import Chunk
 import click
 import nltk
-from spellama.splitting import makeChunks
 import Lib.difflib as difflib
+from tqdm import tqdm
+
 
 @click.group()
 @click.version_option()
@@ -21,16 +24,12 @@ def cli():
 @click.option("--diff", "-d", is_flag=True, help="If set, presents a diff with the original file, rather than the raw correction")
 def correct(file, numBlocksBefore, numBlocksAfter, diff) : 
     contents = file.read()
-    sentences = nltk.tokenize.sent_tokenize(contents)
+    chunks : List[Chunk] = Chunk.makeChunks(contents, numBlocksBefore, numBlocksAfter) 
 
-    chunks = makeChunks(sentences, numBlocksBefore, numBlocksAfter)
-
-    betterChunks = [c.correct() for c in chunks]
-
-    res = [c.getScrutinee() for c in betterChunks]
+    betterChunks = [c.correct() for c in tqdm(chunks)]
 
     if (diff):
-        diff = difflib.unified_diff(sentences, res, fromfile='original', tofile='corrected') 
+        diff = difflib.unified_diff([c.getScrutinee().strip() for c in chunks], [c.getScrutinee().strip() for c in betterChunks], fromfile='original', tofile='corrected') 
         COLOR_HEADER = '\x1b[34m'
         COLOR_ADD    = '\x1b[32m' 
         COLOR_REMOVE = '\x1b[31m'
@@ -46,4 +45,4 @@ def correct(file, numBlocksBefore, numBlocksAfter, diff) :
             else:
                 click.echo(line)
     else:
-        click.echo(" ".join(res))
+        click.echo(" ".join([c.getScrutinee() for c in betterChunks]))
