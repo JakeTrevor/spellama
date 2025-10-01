@@ -1,6 +1,6 @@
 from langchain.schema import BaseMessage,SystemMessage,HumanMessage,AIMessage
 from llama_cpp import Llama
-from Agents.Agent import Agent
+from spellama.Agents.Agent import Agent
 START_TURN="<|start|>"
 END_TURN="<|end|>"
 def format_messages_mistral(messages: list[BaseMessage]) -> str:

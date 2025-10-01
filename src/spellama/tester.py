@@ -13,7 +13,7 @@ test_cases =[
 
 
 
-from MistralCorrectV_2 import MistralCorrector_V2
+from spellama.MistralCorrectV_2 import MistralCorrector_V2
 
 correctors = [MistralCorrector_V2]
 

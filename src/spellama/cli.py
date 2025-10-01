@@ -45,4 +45,4 @@ def correct(file, numBlocksBefore, numBlocksAfter, diff) :
             else:
                 click.echo(line)
     else:
-        click.echo(" ".join([c.getScrutinee() for c in betterChunks]))
+        click.echo("".join([c.getScrutinee() for c in betterChunks]))

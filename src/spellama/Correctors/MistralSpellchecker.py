@@ -1,7 +1,7 @@
 from llama_cpp import Llama
-from Helpers.formatting_helpers import process_text,get_no_punctuation_text_from_processed_text,return_punctuation_to_text,can_return_punctuation_to_text
-from Agents.MistralAgent import MistralAgent
-from Correctors.BaseCorrector import BaseCorrector
+from spellama.Helpers.formatting_helpers import process_text,get_no_punctuation_text_from_processed_text,return_punctuation_to_text,can_return_punctuation_to_text
+from spellama.Agents.MistralAgent import MistralAgent
+from spellama.Correctors.BaseCorrector import BaseCorrector
 
 class MistralSpellchecker(BaseCorrector):
     def __init__(self,llm:Llama):
